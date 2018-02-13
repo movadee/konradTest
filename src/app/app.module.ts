@@ -8,11 +8,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 import { AppComponent } from './app.component';
+import { GameListComponent } from './game-list/game-list.component';
+import { GameDetailsComponent } from './game-details/game-details.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GameListComponent,
+    GameDetailsComponent
   ],
   imports: [
     BrowserModule,
