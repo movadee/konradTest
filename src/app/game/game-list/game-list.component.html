@@ -4,4 +4,6 @@
   <mat-datepicker #picker1></mat-datepicker>
 </mat-form-field>
 
-<li *ngFor="let game of gameList">{{game.home_team_name}}</li>
+<li *ngFor="let game of gameList">
+  <a routerLink="/detail/{{game.game_pk}}">{{game.game_pk}}</a>
+</li>

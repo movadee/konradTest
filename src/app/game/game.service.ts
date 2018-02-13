@@ -9,13 +9,15 @@ export class GameService {
   // single object
   // private gamesUrl = 'http://gd2.mlb.com/components/game/mlb/year_2016/month_10/day_04/master_scoreboard.json';
   // array of objects
-  private gamesUrl = 'http://gd2.mlb.com/components/game/mlb/year_2018/month_02/day_28/master_scoreboard.json';
+  private scoreboardUrl = 'http://gd2.mlb.com';
+  private gamesListDirectory = 'components/game/mlb/year_2018/month_02/day_28/master_scoreboard.json';
 
   constructor(private http: HttpClient) { }
 
   /** GET games list from the server */
   getGameList(): Observable<Game[]> {
-    return this.http.get(this.gamesUrl)
+    const url = `${this.scoreboardUrl}/${this.gamesListDirectory}`;
+    return this.http.get(url)
       .pipe(
         map( result => {
           /** 
@@ -30,6 +32,12 @@ export class GameService {
           return result['data'].games.game;
         })
       );
+  }
+
+  /** GET game from game_data_directory. */
+  getGame(gameDataDirectory: number): Observable<Game> {
+    const url = `${this.scoreboardUrl}/${gameDataDirectory}/boxscore.json`;
+    return this.http.get<Game>(url);
   }
 
 }
