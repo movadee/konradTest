@@ -12,6 +12,7 @@ export class GameListComponent implements OnInit {
   gameList: Game[] = [];
   gameDataDirectory: string;
   favouriteTeam: string;
+  teams = ['Blue Jays','Cubs','Dodgers','Giants','Indians','Nationals','Rangers','Red Sox','Royals'];
 
   // date;
   selectedDate;
@@ -62,8 +63,8 @@ export class GameListComponent implements OnInit {
     if (this.gameList.length === 1) return;
 
     this.gameList.forEach((game, index) => {
-      // (game.home_team_name === favTeam || game.away_team_name === favTeam) 
-      // ? this.gameList.splice(index, 1, this.gameList.splice(1, 1, this.gameList[index])[0]) : '';
+      (game.home_team_name === favTeam || game.away_team_name === favTeam) 
+      ? this.gameList.splice(index, 1, this.gameList.splice(1, 1, this.gameList[index])[0]) : '';
     });
   }
 

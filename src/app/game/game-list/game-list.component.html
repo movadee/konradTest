@@ -15,8 +15,17 @@
   <mat-icon aria-label="Next day">keyboard_arrow_right</mat-icon>
 </button>
 
+<mat-form-field>
+  <mat-select placeholder="Favorite team">
+    <mat-option *ngFor="let team of teams" [value]="team">
+      {{ team }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+{{gameList | json}}
 <!-- If games were played on a given day then display games -->
-<div *ngIf="gameList != [] && gameList != [undefined] && gameList != [null]">
+<div *ngIf="gameList !== [null] && gameList !== [undefined]">
   <span *ngFor="let game of gameList">
     <mat-card routerLink="/game-detail" (click)="updateGameDataDirectory(game.game_data_directory)">
       {{game.home_team_name}} {{game.linescore?.r.home || ''}}<br>

@@ -13,6 +13,7 @@ import { GameService } from './game/game.service';
 import { GameDataDirectoryService } from './game/game-data-directory.service';
 import { GameListComponent } from './game/game-list/game-list.component';
 import { GameDetailsComponent } from './game/game-details/game-details.component';
+import { HttpErrorHandler } from './http-error-handler.service';
 
 
 @NgModule({
@@ -30,7 +31,10 @@ import { GameDetailsComponent } from './game/game-details/game-details.component
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [GameService, GameDataDirectoryService],
+  providers: [
+    GameService, 
+    GameDataDirectoryService,
+    HttpErrorHandler],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

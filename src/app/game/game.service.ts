@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { map, catchError } from 'rxjs/operators';
 import { Game, GameListResponse } from './game';
+import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
 
 @Injectable()
 export class GameService {
@@ -11,14 +12,19 @@ export class GameService {
   private gamesListDirectory = '/components/game/mlb/year_2018/month_02/day_28/master_scoreboard.json';
   private handleError: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+      private http: HttpClient, 
+      private httpErrorHandler: HttpErrorHandler) {
+      this.handleError = httpErrorHandler.createHandleError('GameService');
+     }
 
   /** GET games list from the server */
   getGameList(apiFeed: string): Observable<Game[]> {
     return this.http.get<GameListResponse>(apiFeed)
       .pipe(
         map(res => res['data'].games.game),
-        map(games => Array.isArray(games) ? games : [games])
+        map(games => Array.isArray(games) ? games : [games]),
+        catchError(this.handleError('getGameList'))
       );
   }
 
