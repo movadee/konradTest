@@ -16,6 +16,7 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatIconModule,
     MatCardModule
   ],

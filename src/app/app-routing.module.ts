@@ -6,9 +6,9 @@ import { GameListComponent } from './game/game-list/game-list.component';
 import { GameDetailsComponent } from './game/game-details/game-details.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/games', pathMatch: 'full' },
-  { path: 'games', component: GameListComponent },
-  { path: 'detail/:id', component: GameDetailsComponent }
+  { path: '', redirectTo: '/game-list', pathMatch: 'full' },
+  { path: 'game-list', component: GameListComponent },
+  { path: 'game-detail', component: GameDetailsComponent }
 ];
 
 @NgModule({

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../game.service';
+import { GameDataDirectoryService } from '../game-data-directory.service';
 import { Game } from '../game';
 
 @Component({
@@ -10,17 +11,20 @@ import { Game } from '../game';
 })
 export class GameDetailsComponent implements OnInit {
   gameDetail: Game;
+  gameDataDirectory: string;
 
-  constructor(private route: ActivatedRoute, private gameService: GameService) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private gameService: GameService,
+    private gameDataDirectoryService: GameDataDirectoryService) { }
 
   ngOnInit() {
+    this.gameDataDirectoryService.currentDataDirectory.subscribe(res => this.gameDataDirectory = res);
     this.getGameDetails();
   }
 
   getGameDetails(): void {
-    console.log(+this.route.snapshot.paramMap.get('id'));
-    // const gameDataDirectory = +this.route.snapshot.paramMap.get('id');
-    // this.gameService.getGame(gameDataDirectory).subscribe(game => this.gameDetail = game);
+    this.gameService.getGame(this.gameDataDirectory).subscribe(game => this.gameDetail = game);
   }
 
 }

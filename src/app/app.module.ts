@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './/app-routing.module';
 import { GameService } from './game/game.service';
+import { GameDataDirectoryService } from './game/game-data-directory.service';
 import { GameListComponent } from './game/game-list/game-list.component';
 import { GameDetailsComponent } from './game/game-details/game-details.component';
 
@@ -29,7 +30,7 @@ import { GameDetailsComponent } from './game/game-details/game-details.component
     BrowserAnimationsModule,
     AppRoutingModule
   ],
-  providers: [GameService],
+  providers: [GameService, GameDataDirectoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

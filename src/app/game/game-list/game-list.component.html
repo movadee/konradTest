@@ -1,9 +1,25 @@
+<button mat-icon-button>
+  <mat-icon aria-label="Example icon-button with a heart icon">keyboard_arrow_left</mat-icon>
+</button>
+
 <mat-form-field>
-  <input matInput [matDatepicker]="picker1" [formControl]="date">
+  <input matInput [matDatepicker]="picker1" [(ngModel)]="date">
   <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
   <mat-datepicker #picker1></mat-datepicker>
 </mat-form-field>
 
-<li *ngFor="let game of gameList">
-  <a routerLink="/detail/{{game.game_pk}}">{{game.game_pk}}</a>
-</li>
+<button mat-icon-button>
+  <mat-icon aria-label="Example icon-button with a heart icon">keyboard_arrow_right</mat-icon>
+</button>
+
+<div>
+    Date Chosen using 'ngModel':
+    <div>{{ date + 1 }}</div>
+  </div>
+
+<span *ngFor="let game of gameList">
+  <mat-card routerLink="/game-detail" (click)="updateGameDataDirectory(game.game_data_directory)">
+    {{game.home_team_name}} {{game.linescore?.r.home || ''}}<br>
+    {{game.away_team_name}} {{game.linescore?.r.away || ''}} <br>
+  </mat-card>
+</span>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { GameService } from '../game.service';
+import { GameDataDirectoryService } from '../game-data-directory.service';
 import { Game } from '../game';
 
 @Component({
@@ -10,17 +10,26 @@ import { Game } from '../game';
 })
 export class GameListComponent implements OnInit {
   gameList: Game[];
-  date = new FormControl(new Date());
+  gameDataDirectory: string;
+  date;
 
-  constructor(private gameService: GameService) {
+  constructor(
+    private gameService: GameService,
+    private gameDataDirectoryService: GameDataDirectoryService) {
     this.gameList = [];
    }
 
   ngOnInit() {
+    this.date = new Date();
+    this.gameDataDirectoryService.currentDataDirectory.subscribe(res => this.gameDataDirectory = res);
     this.getGameList();
   }
 
   getGameList(): void {
     this.gameService.getGameList().subscribe(games => this.gameList = games);
+  }
+
+  updateGameDataDirectory(gameDataDirectory: string): void {
+    this.gameDataDirectoryService.updateDataDirectory(gameDataDirectory);
   }
 }
