@@ -1,25 +1,31 @@
-<button mat-icon-button>
-  <mat-icon aria-label="Example icon-button with a heart icon">keyboard_arrow_left</mat-icon>
+<!-- Previous Day Btn -->
+<button mat-icon-button (click)="previousDay()">
+  <mat-icon aria-label="Previous day">keyboard_arrow_left</mat-icon>
 </button>
 
+<!-- Calendar -->
 <mat-form-field>
-  <input matInput [matDatepicker]="picker1" [(ngModel)]="date">
+  <input matInput [matDatepicker]="picker1" [(ngModel)]="selectedDate">
   <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
   <mat-datepicker #picker1></mat-datepicker>
 </mat-form-field>
 
-<button mat-icon-button>
-  <mat-icon aria-label="Example icon-button with a heart icon">keyboard_arrow_right</mat-icon>
+<!-- Next Day Btn -->
+<button mat-icon-button (click)="nextDay()">
+  <mat-icon aria-label="Next day">keyboard_arrow_right</mat-icon>
 </button>
 
-<div>
-    Date Chosen using 'ngModel':
-    <div>{{ date + 1 }}</div>
-  </div>
+<!-- If games were played on a given day then display games -->
+<div *ngIf="gameList === []">
+  <span *ngFor="let game of gameList">
+    <mat-card routerLink="/game-detail" (click)="updateGameDataDirectory(game.game_data_directory)">
+      {{game.home_team_name}} {{game.linescore?.r.home || ''}}<br>
+      {{game.away_team_name}} {{game.linescore?.r.away || ''}} <br>
+    </mat-card>
+  </span>
+</div>
 
-<span *ngFor="let game of gameList">
-  <mat-card routerLink="/game-detail" (click)="updateGameDataDirectory(game.game_data_directory)">
-    {{game.home_team_name}} {{game.linescore?.r.home || ''}}<br>
-    {{game.away_team_name}} {{game.linescore?.r.away || ''}} <br>
-  </mat-card>
-</span>
+<!-- If there were no games on a given day then display a message -->
+<div *ngIf="gameList !== []">
+    No games today
+</div>

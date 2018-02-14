@@ -22,7 +22,7 @@ export class GameService {
       );
   }
 
-  /** GET game from game_data_directory. */
+  /** GET game from game_data_directory */
   getGame(gameDataDirectory: string): Observable<Game> {
     const url = `${this.scoreboardUrl}${gameDataDirectory}/boxscore.json`;
     return this.http.get<Game>(url);
