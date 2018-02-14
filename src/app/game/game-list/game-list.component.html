@@ -1,5 +1,5 @@
 <!-- Previous Day Btn -->
-<button mat-icon-button (click)="previousDay()">
+<button mat-icon-button (click)="changeDay('previous')">
   <mat-icon aria-label="Previous day">keyboard_arrow_left</mat-icon>
 </button>
 
@@ -11,12 +11,12 @@
 </mat-form-field>
 
 <!-- Next Day Btn -->
-<button mat-icon-button (click)="nextDay()">
+<button mat-icon-button (click)="changeDay('next')">
   <mat-icon aria-label="Next day">keyboard_arrow_right</mat-icon>
 </button>
 
 <!-- If games were played on a given day then display games -->
-<div *ngIf="gameList === []">
+<div *ngIf="gameList != [] && gameList != [undefined] && gameList != [null]">
   <span *ngFor="let game of gameList">
     <mat-card routerLink="/game-detail" (click)="updateGameDataDirectory(game.game_data_directory)">
       {{game.home_team_name}} {{game.linescore?.r.home || ''}}<br>
@@ -26,6 +26,6 @@
 </div>
 
 <!-- If there were no games on a given day then display a message -->
-<div *ngIf="gameList !== []">
+<!-- <div *ngIf="gameList !== null">
     No games today
-</div>
+</div> -->
