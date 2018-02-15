@@ -5,9 +5,9 @@
 
 <!-- Calendar -->
 <mat-form-field>
-  <input matInput [matDatepicker]="picker1" [(ngModel)]="selectedDate">
+  <input matInput [matDatepicker]="picker1" [(ngModel)]="currentDate" (dateChange)="dateChange($event)" disabled>
   <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-  <mat-datepicker #picker1></mat-datepicker>
+  <mat-datepicker #picker1 disabled="false"></mat-datepicker>
 </mat-form-field>
 
 <!-- Next Day Btn -->
@@ -17,15 +17,19 @@
 
 <mat-form-field>
   <mat-select placeholder="Favorite team">
-    <mat-option *ngFor="let team of teams" [value]="team">
+    <mat-option *ngFor="let team of teams" [value]="team" (click)="showFavTeamFirst(team)">
       {{ team }}
     </mat-option>
   </mat-select>
 </mat-form-field>
 
-{{gameList | json}}
+<!-- If there were no games on a given day then display a message -->
+<div *ngIf="gameList.length === 0">
+    No games today
+</div>
+
 <!-- If games were played on a given day then display games -->
-<div *ngIf="gameList !== [null] && gameList !== [undefined]">
+<div *ngIf="gameList.length">
   <span *ngFor="let game of gameList">
     <mat-card routerLink="/game-detail" (click)="updateGameDataDirectory(game.game_data_directory)">
       {{game.home_team_name}} {{game.linescore?.r.home || ''}}<br>
@@ -33,8 +37,3 @@
     </mat-card>
   </span>
 </div>
-
-<!-- If there were no games on a given day then display a message -->
-<!-- <div *ngIf="gameList !== null">
-    No games today
-</div> -->

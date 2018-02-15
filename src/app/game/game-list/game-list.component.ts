@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
-import { GameDataDirectoryService } from '../game-data-directory.service';
+import { GameDataService } from '../game-data.service';
 import { Game } from '../game';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+
 
 @Component({
   selector: 'app-game-list',
@@ -9,74 +11,74 @@ import { Game } from '../game';
   styleUrls: ['./game-list.component.css']
 })
 export class GameListComponent implements OnInit {
-  gameList: Game[] = [];
+  gameList: Game[];
   gameDataDirectory: string;
   favouriteTeam: string;
-  teams = ['Blue Jays','Cubs','Dodgers','Giants','Indians','Nationals','Rangers','Red Sox','Royals'];
+  teams = ['Blue Jays', 'Red Sox','Tigers', 'Twins'];
 
-  // date;
-  selectedDate;
-  displayDate;
-  // year;
-  // month;
-  // day;
+  currentDate;
 
   constructor(
     private gameService: GameService,
-    private gameDataDirectoryService: GameDataDirectoryService) {
-    this.gameList;
-    this.favouriteTeam = 'Blue Jays';
-
-    this.selectedDate = new Date();
-    // this.displayDate = 
-    // this.date = new Date();
-    // this.year = this.date.getFullYear();
-    // this.month = this.date.getMonth() + 1;
-    // this.day = this.date.getDate();
-    // this.selectedDate = new Date(this.year, this.month-1, this.day);
-    // this.selectedDate = new Date("2018, 2, 2");
+    private gameDataDirectoryService: GameDataService) {
+    // this.gameList = [];
+    // this.favouriteTeam = 'Blue Jays';
    }
 
   ngOnInit() {
     this.gameDataDirectoryService.currentDataDirectory.subscribe(res => this.gameDataDirectory = res);
+    this.gameDataDirectoryService.currentDate.subscribe(res => this.currentDate = res);
+    this.gameList = [];
     this.getGameList();
-    this.showFavTeamFirst(this.favouriteTeam);
   }
 
   getGameList(): void {
-    let year = this.selectedDate.getFullYear();
-    let month = this.selectedDate.getMonth() + 1;
-    let day = this.selectedDate.getDate();
+    let year = this.currentDate.getFullYear();
+    let month = this.currentDate.getMonth() + 1;
+    let day = this.currentDate.getDate();
 
     let apiFeed = 'http://gd2.mlb.com/components/game/mlb/year_' + year 
                   + '/month_'+ (month < 10 ? '0' + month : month) 
                   + '/day_' + (day < 10 ? '0' + day : day) + '/master_scoreboard.json';
-    this.gameService.getGameList(apiFeed).subscribe(games => this.gameList = games);
-    console.log(this.gameList);
+    this.gameService.getGameList(apiFeed)
+      .subscribe( data => {
+        this.gameList = data;
+        this.showFavTeamFirst(this.favouriteTeam);
+      },
+      err => {
+        this.gameList = [];
+      });
   }
 
   updateGameDataDirectory(gameDataDirectory: string): void {
     this.gameDataDirectoryService.updateDataDirectory(gameDataDirectory);
   }
 
-  showFavTeamFirst(favTeam: string) {
-    if (this.gameList.length === 1) return;
-
-    this.gameList.forEach((game, index) => {
-      (game.home_team_name === favTeam || game.away_team_name === favTeam) 
-      ? this.gameList.splice(index, 1, this.gameList.splice(1, 1, this.gameList[index])[0]) : '';
-    });
+  updateDate(date): void {
+    this.gameDataDirectoryService.updateDate(date);
   }
 
-  changeDay(prevOrNext: string) {
-    // (prevOrNext === 'next') ? this.date.setDate(this.date.getDate() + 1) : this.date.setDate(this.date.getDate() - 1);
-    (prevOrNext === 'next') ? this.selectedDate.setDate(this.selectedDate.getDate() + 1) : this.selectedDate.setDate(this.selectedDate.getDate() - 1);
-    // this.year = this.date.getFullYear();
-    // this.month = this.date.getMonth();
-    // this.day = this.date.getDate();
+  // Re-order the list of games when a different team becomes favourite
+  showFavTeamFirst(favTeam: string = 'Blue Jays') {
+    this.favouriteTeam = favTeam;
+    for (var i=this.gameList.length-1; i>0; i--) {
+      if (this.gameList[i].home_team_name === favTeam || this.gameList[i].away_team_name === favTeam) {
+          var obj = this.gameList[i];
+          this.gameList.splice(i, 1);
+          this.gameList.unshift(obj);   
+      }
+  }
+}
 
-    // this.selectedDate = new Date(this.year, this.month-1, this.day);
-    // this.getGameList(this.year, this.month, this.day);
+  changeDay(prevOrNext: string) {
+    let DATE = new Date(this.currentDate);
+    (prevOrNext === 'next') ? DATE.setDate(this.currentDate.getDate() + 1) : DATE.setDate(this.currentDate.getDate() - 1);
+    this.updateDate(DATE)
+    this.getGameList();
+  }
+
+  dateChange(event: MatDatepickerInputEvent<Date>){
+    this.updateDate(event.value);
     this.getGameList();
   }
 

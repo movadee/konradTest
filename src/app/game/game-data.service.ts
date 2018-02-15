@@ -6,15 +6,22 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
   of the selected game in sync between components
 */
 @Injectable()
-export class GameDataDirectoryService {
+export class GameDataService {
 
-  private gameDataDirectorySource = new BehaviorSubject<string>("");
+  gameDataDirectorySource = new BehaviorSubject<string>("");
   currentDataDirectory = this.gameDataDirectorySource.asObservable();
+
+  date = new BehaviorSubject<any>(new Date());
+  currentDate = this.date.asObservable();
 
   constructor() { }
 
   updateDataDirectory(dataDirectory: string) {
     this.gameDataDirectorySource.next(dataDirectory);
+  }
+
+  updateDate(date: Date) {
+    this.date.next(date);
   }
 
 }

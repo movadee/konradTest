@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GameService } from '../game.service';
-import { GameDataDirectoryService } from '../game-data-directory.service';
-import { Game } from '../game';
+import { GameDataService } from '../game-data.service';
+import { Game, GameDetail } from '../game';
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-game-details',
@@ -10,13 +11,13 @@ import { Game } from '../game';
   styleUrls: ['./game-details.component.css']
 })
 export class GameDetailsComponent implements OnInit {
-  gameDetail: Game;
+  gameDetails: GameDetail = new GameDetail;
   gameDataDirectory: string;
 
   constructor(
     private route: ActivatedRoute, 
     private gameService: GameService,
-    private gameDataDirectoryService: GameDataDirectoryService) { }
+    private gameDataDirectoryService: GameDataService) { }
 
   ngOnInit() {
     this.gameDataDirectoryService.currentDataDirectory.subscribe(res => this.gameDataDirectory = res);
@@ -24,7 +25,15 @@ export class GameDetailsComponent implements OnInit {
   }
 
   getGameDetails(): void {
-    this.gameService.getGame(this.gameDataDirectory).subscribe(game => this.gameDetail = game);
+    this.gameService.getGame(this.gameDataDirectory)
+      .subscribe(game => {this.gameDetails = game},
+        err => {
+          this.gameDetails  = new GameDetail;
+        });
+  }
+
+  isEmptyObj(): boolean {
+    return _.isEmpty(this.gameDetails);
   }
 
 }

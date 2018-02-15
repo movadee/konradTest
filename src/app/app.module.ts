@@ -2,18 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-
-// Angular Material Imports
-import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
+
+// Game
 import { GameService } from './game/game.service';
-import { GameDataDirectoryService } from './game/game-data-directory.service';
+import { GameDataService } from './game/game-data.service';
 import { GameListComponent } from './game/game-list/game-list.component';
 import { GameDetailsComponent } from './game/game-details/game-details.component';
-import { HttpErrorHandler } from './http-error-handler.service';
 
 
 @NgModule({
@@ -33,8 +32,8 @@ import { HttpErrorHandler } from './http-error-handler.service';
   ],
   providers: [
     GameService, 
-    GameDataDirectoryService,
-    HttpErrorHandler],
+    GameDataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

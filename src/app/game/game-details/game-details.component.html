@@ -1,3 +1,111 @@
-<p>
-  game-details works!
-</p>
+<button mat-icon-button routerLink="/game-list">
+  <mat-icon aria-label="Go Back">arrow_back</mat-icon>
+</button>
+
+<div *ngIf="isEmptyObj()">
+  Sorry, no details available at this moment
+</div>
+
+<div *ngIf="!isEmptyObj()">
+
+    <table>
+        <tr>
+            <th></th>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>R</th>
+            <th>H</th>
+            <th>E</th>
+        </tr>
+        <tr>
+            <td>{{ gameDetails?.home_sname }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[0]?.home }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[1]?.home }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[2]?.home }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[3]?.home }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[4]?.home }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[5]?.home }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[6]?.home }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[7]?.home }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[8]?.home }}</td>
+            <td>{{ gameDetails?.linescore?.home_team_runs }}</td>
+            <td>{{ gameDetails?.linescore?.home_team_hits }}</td>
+            <td>{{ gameDetails?.linescore?.home_team_errors }}</td>
+        </tr>
+        <tr>
+            <td>{{ gameDetails?.away_sname }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[0]?.away }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[1]?.away }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[2]?.away }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[3]?.away }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[4]?.away }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[5]?.away }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[6]?.away }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[7]?.away }}</td>
+            <td>{{ gameDetails.linescore.inning_line_score[8]?.away }}</td>
+            <td>{{ gameDetails?.linescore?.away_team_runs }}</td>
+            <td>{{ gameDetails?.linescore?.away_team_hits }}</td>
+            <td>{{ gameDetails?.linescore?.away_team_errors }}</td>
+        </tr>
+    </table>
+
+    <br><br>
+    <mat-tab-group>
+      <mat-tab [label]="gameDetails?.home_sname">
+        <table>
+          <tr>
+            <th>Name</th>
+            <th>AB</th>
+            <th>R</th>
+            <th>H</th>
+            <th>RBI</th>
+            <th>BB</th>
+            <th>SO</th>
+            <th>AVG</th>
+          </tr>
+          <tr *ngFor="let b of gameDetails.batting[0].batter">
+            <td>{{ b.name }}</td>
+            <td>{{ b.ab }}</td>
+            <td>{{ b.r }}</td>
+            <td>{{ b.h }}</td>
+            <td>{{ b.rbi }}</td>
+            <td>{{ b.bb }}</td>
+            <td>{{ b.so }}</td>
+            <td>{{ b.avg }}</td>
+          </tr>
+        </table>
+      </mat-tab>
+      <mat-tab [label]="gameDetails?.away_fname">
+        <table>
+            <tr>
+            <th>Name</th>
+            <th>AB</th>
+            <th>R</th>
+            <th>H</th>
+            <th>RBI</th>
+            <th>BB</th>
+            <th>SO</th>
+            <th>AVG</th>
+          </tr>
+          <tr *ngFor="let b of gameDetails.batting[1].batter">
+            <td>{{ b.name }}</td>
+            <td>{{ b.ab }}</td>
+            <td>{{ b.r }}</td>
+            <td>{{ b.h }}</td>
+            <td>{{ b.rbi }}</td>
+            <td>{{ b.bb }}</td>
+            <td>{{ b.so }}</td>
+            <td>{{ b.avg }}</td>
+          </tr>
+        </table>
+      </mat-tab>
+    </mat-tab-group>
+
+</div>
