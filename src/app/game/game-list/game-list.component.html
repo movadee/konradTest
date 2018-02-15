@@ -15,6 +15,7 @@
   <mat-icon aria-label="Next day">keyboard_arrow_right</mat-icon>
 </button>
 
+<!-- Select to display a favourite team at the top of the list -->
 <mat-form-field>
   <mat-select placeholder="Favorite team">
     <mat-option *ngFor="let team of teams" [value]="team" (click)="showFavTeamFirst(team)">

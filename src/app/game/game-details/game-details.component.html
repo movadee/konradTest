@@ -1,13 +1,17 @@
+<!-- To return to the list of games where user last left off -->
 <button mat-icon-button routerLink="/game-list">
   <mat-icon aria-label="Go Back">arrow_back</mat-icon>
 </button>
 
+<!-- If there is no game details available then display a message -->
 <div *ngIf="isEmptyObj()">
   Sorry, no details available at this moment
 </div>
 
+<!-- If available, display games details -->
 <div *ngIf="!isEmptyObj()">
 
+  <!-- TODO: optimize html code -->
     <table>
         <tr>
             <th></th>

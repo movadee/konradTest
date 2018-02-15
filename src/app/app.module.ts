@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 // Game
+// TODO: create a game module and import it here instead of components and services related to game
 import { GameService } from './game/game.service';
 import { GameDataService } from './game/game-data.service';
 import { GameListComponent } from './game/game-list/game-list.component';

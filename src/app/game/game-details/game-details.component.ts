@@ -11,7 +11,7 @@ import * as _ from "lodash";
   styleUrls: ['./game-details.component.css']
 })
 export class GameDetailsComponent implements OnInit {
-  gameDetails: GameDetail = new GameDetail;
+  gameDetails: GameDetail;
   gameDataDirectory: string;
 
   constructor(
@@ -20,6 +20,7 @@ export class GameDetailsComponent implements OnInit {
     private gameDataDirectoryService: GameDataService) { }
 
   ngOnInit() {
+    this.gameDetails = new GameDetail;
     this.gameDataDirectoryService.currentDataDirectory.subscribe(res => this.gameDataDirectory = res);
     this.getGameDetails();
   }

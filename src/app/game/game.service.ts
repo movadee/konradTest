@@ -1,3 +1,6 @@
+/** 
+  Game Service is retrieving games data from the server
+*/
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
@@ -7,6 +10,7 @@ import { Game, GameListResponse, GameDetail } from './game';
 @Injectable()
 export class GameService {
   
+  // optimize get methods
   private scoreboardUrl = 'http://gd2.mlb.com';
 
   constructor(private http: HttpClient) { }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../game.service';
 import { GameDataService } from '../game-data.service';
 import { Game } from '../game';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 
 @Component({
@@ -14,20 +14,17 @@ export class GameListComponent implements OnInit {
   gameList: Game[];
   gameDataDirectory: string;
   favouriteTeam: string;
-  teams = ['Blue Jays', 'Red Sox','Tigers', 'Twins'];
-
+  teams: any[];
   currentDate;
 
   constructor(
     private gameService: GameService,
-    private gameDataDirectoryService: GameDataService) {
-    // this.gameList = [];
-    // this.favouriteTeam = 'Blue Jays';
-   }
+    private gameDataDirectoryService: GameDataService) { }
 
   ngOnInit() {
     this.gameDataDirectoryService.currentDataDirectory.subscribe(res => this.gameDataDirectory = res);
     this.gameDataDirectoryService.currentDate.subscribe(res => this.currentDate = res);
+    this.teams = ['Blue Jays', 'Red Sox','Tigers', 'Twins'];
     this.gameList = [];
     this.getGameList();
   }
@@ -67,9 +64,10 @@ export class GameListComponent implements OnInit {
           this.gameList.splice(i, 1);
           this.gameList.unshift(obj);   
       }
+    }
   }
-}
 
+  // TODO: optimize date manipulation functions, can be written in more elegant way
   changeDay(prevOrNext: string) {
     let DATE = new Date(this.currentDate);
     (prevOrNext === 'next') ? DATE.setDate(this.currentDate.getDate() + 1) : DATE.setDate(this.currentDate.getDate() - 1);

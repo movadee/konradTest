@@ -1,3 +1,4 @@
+// Module organizes required material modules
 import { NgModule } from '@angular/core';
 
 import {
